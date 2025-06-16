@@ -32,7 +32,7 @@ class ThreadSafeMetric : public IMetric {
 class SimulatedEventMetric : public IMetric {
  public:
   std::atomic<int> counter{0};
-  
+
   std::string serialize() const override {
     return "events=" + std::to_string(counter.load());
   }
@@ -68,6 +68,7 @@ TEST(MetricWriterThreadTest, ConcurrentWriteAll) {
 
 TEST(MetricWriterThreadTest, WriteAllDoesNotBlockEventThreads) {
   const std::string filename = "test_async.log";
+  std::remove(filename.c_str());
   auto metric = std::make_shared<SimulatedEventMetric>();
   MetricCollection::instance().registerMetric(metric);
   MetricWriter writer(filename);
@@ -78,7 +79,7 @@ TEST(MetricWriterThreadTest, WriteAllDoesNotBlockEventThreads) {
     }
   });
 
-  const int kEventIterations = 1000;
+  const int kEventIterations = 100000;
   for (int i = 0; i < kEventIterations; ++i) {
     ++metric->counter;
   }
