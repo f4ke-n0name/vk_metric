@@ -86,7 +86,7 @@ cmake .. -G "MinGW Makefiles" -DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe -D
 ## Зависимости
 
 - C++17 или новее
-- [GoogleTest](https://github.com/google/googletest) (автоматически подтягивается через CMake FetchContent)
+- CMake
 
 ## Структура
 
